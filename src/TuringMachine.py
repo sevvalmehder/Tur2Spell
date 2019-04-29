@@ -4,17 +4,17 @@ import copy
 class TuringMachine(object):
     """The definition of Turing Machine."""
 
-    def __init__(self, states, alphabet, transitions, start_state, blank, accept_state):
-        """Initialize a Turing Machine
-        ps: alphabet = input_alphabet = tape_alphabet
-        """
+    def __init__(self, states, input_alphabet, tape_alphabet, blank, transitions, start_state, accept_state, reject_state):
+        """Initialize a Turing Machine."""
 
         self.states = copy.copy(states)
-        self.alphabet = copy.copy(alphabet)
+        self.input_alphabet = copy.copy(input_alphabet)
+        self.tape_alphabet = copy.copy(tape_alphabet)
+        self.blank = copy.copy(blank)
         self.transitions = copy.deepcopy(transitions)
         self.start_state = copy.copy(start_state)
         self.accept_state = copy.copy(accept_state)
-        self.blank = copy.copy(blank)
+        self.reject_state = copy.copy(reject_state)
         self.validation()
 
     def validation(self):
