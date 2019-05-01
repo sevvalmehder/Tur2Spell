@@ -28,6 +28,8 @@ class TuringMachine(object):
         # Start state, accept state and reject state must be in states set
         if self.start_state not in self.states:
             raise ValueError("start_state must be in states set")
+        print(self.accept_state)
+        print(self.states)
         if self.accept_state not in self.states:
             raise ValueError("accept_state must be in states set")
         if self.reject_state not in self.states:
