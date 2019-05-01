@@ -26,11 +26,11 @@ class TuringMachine(object):
                 raise ValueError("Every input symbols must be in tape symbols")
 
         # Start state, accept state and reject state must be in states set
-        if self.start_state not in self.start_state:
+        if self.start_state not in self.states:
             raise ValueError("start_state must be in states set")
-        if self.accept_state not in self.start_state:
+        if self.accept_state not in self.states:
             raise ValueError("accept_state must be in states set")
-        if self.reject_state not in self.start_state:
+        if self.reject_state not in self.states:
             raise ValueError("reject_state must be in states set")
 
         # Reject state must be different from accept state
