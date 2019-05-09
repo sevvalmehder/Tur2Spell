@@ -1,4 +1,5 @@
 import copy
+from TMTape import TMTape
 
 
 class TuringMachine(object):
@@ -8,6 +9,7 @@ class TuringMachine(object):
                  reject_state):
         """Initialize a Turing Machine."""
 
+        self.tape = None
         self.states = copy.copy(states)
         self.input_alphabet = copy.copy(input_alphabet)
         self.tape_alphabet = copy.copy(tape_alphabet)
@@ -50,7 +52,24 @@ class TuringMachine(object):
             if elm not in self.input_alphabet['vowels'] and elm not in self.input_alphabet['consonants']:
                 raise ValueError("{} is not in input_alphabet".format(elm))
 
+    def is_final(self, status):
+        if status["state"] == self.accept_state
+
     def execute(self, input_tape):
         self.validate_input(input_tape)
-        output_tape = ""
-        return output_tape
+
+        self.tape = TMTape(input_tape)
+
+        # TODO: Acaba status için bir class mı yapsak?
+        # print(self.tape.is_end(self.blank))
+        while not self.tape.is_end(self.blank):
+            current_status = {
+                'state': self.start_state,
+                'tape': self.tape
+            }
+
+            while current_status:
+                if self.is_final(current_status):
+
+
+        return self.tape.get_tape()
