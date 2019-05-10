@@ -1,4 +1,4 @@
-from .TuringMachine import TuringMachine
+from TuringMachine import TuringMachine
 
 
 def main():
