@@ -11,6 +11,9 @@ class TMTape():
     def read_tape(self):
         return self.tape[self.cur_pos]
 
+    def write_to_tape(self, out):
+        self.tape[self.cur_pos] = out
+
     def get_tape(self):
         return "".join(self.tape)
 
