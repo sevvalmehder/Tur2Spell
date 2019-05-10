@@ -7,11 +7,11 @@ def type_of_letter(letter):
     vowels = ['a', 'ı', 'o', 'u', 'e', 'i', 'ö', 'ü']
 
     if letter in consonants:
-        return 'consonant'
+        return 'c'
     elif letter in vowels:
-        return 'vowel'
+        return 'v'
     else:
-        return 'other'
+        return '#'
 
 
 # ==============================================================================
@@ -43,15 +43,25 @@ class TMStatus:
         tape_symbol = tape.read_tape()
         transition = self.get_transition(tape_symbol)
 
+        '''
+        # Control print
+        print("The current state: {}, the input symbol: {}".format(self.cur_state, tape_symbol))
+        print("The transition: {}".format(transition))
+        '''
+
         if transition is not None:
+
             # Set the current state
             self.cur_state = transition[0]
 
             # Write this output to the tape
-            to_write = tape_symbol if transition[1][0] != '-' else str('-' + tape_symbol)
-            tape.write_to_tape(to_write)
+            if transition[1] is not '':
+                to_write = tape_symbol if transition[1][0] != '-' else str('-' + tape_symbol)
+                tape.write_to_tape(to_write)
 
             # Move to the head of the tape
             tape.move(transition[2])
 
-            print(tape.get_tape())
+            return True
+
+        return False

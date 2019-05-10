@@ -1,12 +1,10 @@
 class TMTape():
 
-    def __init__(self, input):
+    def __init__(self, input, blank):
         self.tape = list(input)
         self.cur_pos = 0
-
-    def is_end(self, blank_symbol):
-        """Return true if the tape end, otherwise return false"""
-        return self.tape[self.cur_pos] == blank_symbol
+        self.blank_symbol = blank
+        self.add_blank()
 
     def read_tape(self):
         return self.tape[self.cur_pos]
@@ -23,3 +21,7 @@ class TMTape():
             self.cur_pos += 1
         elif direction == 'L':
             self.cur_pos -= 1
+
+    def add_blank(self):
+        self.tape.append(self.blank_symbol)
+

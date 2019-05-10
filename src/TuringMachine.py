@@ -44,13 +44,9 @@ class TuringMachine(object):
     def validate_input(self, input):
         """"Validation function for turing machine input"""
 
-        # The last element of input must be blank symbol
-        if input[-1] != '#':
-            raise ValueError("Input must end with blank symbol({})".format(self.blank))
-
         # Every element in input must be element of input_alphabet
         for elm in input[:-1]:
-            if elm not in self.input_alphabet['vowels'] and elm not in self.input_alphabet['consonants']:
+            if elm not in self.input_alphabet['v'] and elm not in self.input_alphabet['c']:
                 raise ValueError("{} is not in input_alphabet".format(elm))
 
     def is_final(self, status):
@@ -62,18 +58,28 @@ class TuringMachine(object):
             return False
 
     def execute(self, input_tape):
+
+        # Then control the input
         self.validate_input(input_tape)
 
-        self.tape = TMTape(input_tape)
+        # Create a tape object
+        self.tape = TMTape(input_tape, self.blank)
 
         # Set the current status with start state and tape
         cur_status = TMStatus(self.start_state, self.transitions)
+        status = True
 
         # While the current status is not accepted update the status
         while not self.is_final(cur_status):
-            cur_status.update(self.tape)
+            status = cur_status.update(self.tape)
 
-        # If the input is accepted
+        # If the status is false, there is no transition
+        if not status:
+            raise ValueError("There is no transition function"
+                             " for the input {}".format(self.tape.read_tape()))
+
+        # If the status true and the state is final state
+        # Whether the final state is accept or reject
         if cur_status.cur_state == self.accept_state:
             result = "accepted"
         else:
