@@ -1,5 +1,6 @@
 import copy
 from TMTape import TMTape
+from TMStatus import TMStatus
 
 
 class TuringMachine(object):
@@ -53,23 +54,29 @@ class TuringMachine(object):
                 raise ValueError("{} is not in input_alphabet".format(elm))
 
     def is_final(self, status):
-        if status["state"] == self.accept_state
+        """Check whether the given status is the final"""
+        if status.cur_state == self.accept_state or \
+                status.cur_state == self.reject_state:
+            return True
+        else:
+            return False
 
     def execute(self, input_tape):
         self.validate_input(input_tape)
 
         self.tape = TMTape(input_tape)
 
-        # TODO: Acaba status için bir class mı yapsak?
-        # print(self.tape.is_end(self.blank))
-        while not self.tape.is_end(self.blank):
-            current_status = {
-                'state': self.start_state,
-                'tape': self.tape
-            }
+        # Set the current status with start state and tape
+        cur_status = TMStatus(self.start_state, self.transitions)
 
-            while current_status:
-                if self.is_final(current_status):
+        # While the current status is not accepted update the status
+        while not self.is_final(cur_status):
+            cur_status.update(self.tape)
 
+        # If the input is accepted
+        if cur_status.cur_state == self.accept_state:
+            result = "accepted"
+        else:
+            result = "rejected"
 
-        return self.tape.get_tape()
+        return self.tape.get_tape(), result
