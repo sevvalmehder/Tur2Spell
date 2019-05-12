@@ -127,5 +127,4 @@ for i in range(0, len(state)):
     canvas.pack()
 
 animation.mainloop()
-print("ssssssssssssss")
 
