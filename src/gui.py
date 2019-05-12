@@ -122,9 +122,11 @@ for i in range(0, len(state)):
     main_graph(canvas, state[i])
     animation.update()
     time.sleep(1)
-    canvas.destroy()
-    canvas=Canvas(animation, width=1000, height=800)
-    canvas.pack()
+    
+    if i!=len(state)-1:
+        canvas.destroy()
+        canvas = Canvas(animation, width=1000, height=800)
+        canvas.pack()
 
 animation.mainloop()
 
