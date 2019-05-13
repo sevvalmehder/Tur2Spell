@@ -81,8 +81,9 @@ def main():
         if not word:
             break
         print("Your input:", word)
-        output = spelling_turing_machine.execute(word)
-        print("Turing Machine: ", output)
+        output_tape, result, steps = spelling_turing_machine.execute(word)
+        print("The word {} is {}, the final tape: {}".format(word, result, output_tape))
+        print("The machine steps: ", steps)
 
 
 if __name__ == '__main__':

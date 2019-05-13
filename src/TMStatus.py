@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 # ==============================================================================
 # -- Global function ----------------------------------------------------------
 # ==============================================================================
@@ -20,8 +22,12 @@ def type_of_letter(letter):
 class TMStatus:
 
     def __init__(self, state, transitions):
+        # Create a dictionary for keep the current state and tape index
+        self.machine_steps = OrderedDict()
         self.cur_state = state
         self.transition = transitions
+        # Initialize the machine_steps with first step
+        self.machine_steps[self.cur_state] = 0
 
     def get_transition(self, tape_symbol):
         """Return the transition function for current state"""
@@ -61,6 +67,9 @@ class TMStatus:
 
             # Move to the head of the tape
             tape.move(transition[2])
+
+            # update the machine_steps dictionary
+            self.machine_steps[self.cur_state] = tape.cur_pos
 
             return True
 
