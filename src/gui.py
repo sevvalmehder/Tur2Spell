@@ -250,9 +250,11 @@ def gui_execute(animation, input):
     print("The word {} is {}, the final tape: {}".format(input, result, output_tape))
     print("The machine steps: ", steps)
 
-    i = 0
+
     change_input=''
-    for key, value in steps.items():
+    for i in range(len(steps)):
+        key=steps[i][0]
+        value=steps[i][1]
         if (i == 0):
             canvas = Canvas(animation, width=2000, height=600, bg='white')
             canvas.pack()
@@ -276,6 +278,7 @@ def gui_execute(animation, input):
             # time.sleep(1)
             canvas.pack()
             status=1
+            change_input=''
             if value in way_list:
                 for k in range(value):
                     change_input+=input[k]
@@ -292,7 +295,8 @@ def gui_execute(animation, input):
 
             animation.update()
         way_list.append(value)
-        i += 1
+        print("waylist>>",way_list)
+
 
     #canvas.destroy()
     #table.destroy()
