@@ -260,7 +260,7 @@ def gui_execute(animation, input):
 
 
     i = 0
-    for key, value in steps.items():
+    for (key, value) in steps:
         if (i == 0):
             canvas = Canvas(animation, width=2000, height=600, bg='white')
             canvas.pack()
