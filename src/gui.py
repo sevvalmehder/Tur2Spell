@@ -4,6 +4,7 @@ import sys
 from  tkinter import*
 import tkinter as tk
 from TuringMachine import TuringMachine
+
 input_alphabet = {
         'c': ['b', 'c', 'd', 'g', 'ğ', 'j', 'l', 'm', 'n', 'r', 'v', 'y', 'y', 'z', 'ç', 'f', 'h', 'k', 'p',
                        's', 'ş', 't'],
@@ -56,7 +57,7 @@ transitions = {
     'q5': {
         'c': (reject_state, '', 'R'),
         'v': ('q6', 'v', 'R'),
-        '#': (reject_state, '', 'R')
+        '#': (accept_state, '', 'R')
     },
     'q6': {
         'c': ('q7', 'c', 'R'),
@@ -87,11 +88,11 @@ def main_graph(canvas, current_state):
     # reject
     if current_state=='reject':
         create_ovalq1(canvas, 'reject', x0 + 600, y0 + 150 + 30, x0 + 600 + 40, y0 + 150 + 30 + 40, color="MediumPurple1", width=10, ocolor="gold")
-
+        canvas.create_rectangle(x0 + 600 + 70, y0 + 150 + 30, x0 + 600 + 40 + 70, y0 + 150 + 30 + 40, fill='red',
+                                width=5, outline='red')
     else:
-        create_ovalq1(canvas, 'reject', x0 + 600, y0 + 150 + 30, x0 + 600 + 40, y0 + 150 + 30 + 40,
-                      color="MediumPurple1")
-        canvas.create_rectangle(x0 + 600 + 70, y0 + 150 + 30, x0 + 600 + 40 + 70, y0 + 150 + 30 + 40, fill='red', width=5, outline='tan1')
+        create_ovalq1(canvas, 'reject', x0 + 600, y0 + 150 + 30, x0 + 600 + 40, y0 + 150 + 30 + 40,color="MediumPurple1")
+
     canvas.create_line(x0 + 400 + 40, y0 + 30 + 20 + 40, x0 + 600 + 20, y0 + 150 + 30, arrow=tk.LAST, fill="bisque1")
     canvas.create_line(x0 + 40, y0 + 30, x0 + 600, y0 + 150 + 30, arrow=tk.LAST, fill="bisque1")
     canvas.create_line(x0 + 100 + 20, y0 - 80 + 40, x0 + 600, y0 + 150 + 30, arrow=tk.LAST, fill="bisque1")  # q2
@@ -210,7 +211,8 @@ def create_rects(animation,  pointed_index, input='                      ',):
             current_y=125
             point_state=37*50
             canvas.create_rectangle(current_x, current_y, current_x + lngt, current_y + lngt, fill="SkyBlue3", width=3)
-            canvas.create_text(current_x + 20, current_y+10, text=input[i])
+            canvas.create_text(current_x + 20, current_y+10,  text=input[i])
+            canvas.create_text()
 
         if (i >73 and i<80):
             current_x -= 74 * 50
@@ -235,38 +237,29 @@ def create_rects(animation,  pointed_index, input='                      ',):
         canvas.pack()
     return canvas
 
-state=['q0', 'q1', 'q3', 'q4', 'accept']
-#canvas.create_rectangle()
-'''for i in range(0, len(state)):
-    print(state[i])
-    main_graph(canvas, state[i])
-    animation.update()
-    time.sleep(1)
 
-    if i!=len(state)-1:
-        canvas.destroy()
-        table.destroy()
-        canvas = Canvas(animation, width=2000, height=600, bg='white')
 
-        canvas.pack()
-        table = create_rects(animation, state, 0)
-'''
 def gui_execute(animation, input):
     spelling_turing_machine = TuringMachine(states, input_alphabet, tape_alphabet, blank, transitions, initial_state,
                                             accept_state, reject_state)
 
 
     output_tape, result, steps = spelling_turing_machine.execute(input)
-
+    way_list=[]
+    print(output_tape, "******")
+    print("The word {} is {}, the final tape: {}".format(input, result, output_tape))
+    print("The machine steps: ", steps)
 
     i = 0
-    for (key, value) in steps:
+    change_input=''
+    for key, value in steps.items():
         if (i == 0):
             canvas = Canvas(animation, width=2000, height=600, bg='white')
             canvas.pack()
             main_graph(canvas, key)
 
             table = create_rects(animation, value, input)
+
             animation.update()
             time.sleep(1)
         else:
@@ -282,16 +275,44 @@ def gui_execute(animation, input):
 
             # time.sleep(1)
             canvas.pack()
-
+            status=1
+            if value in way_list:
+                for k in range(value):
+                    change_input+=input[k]
+                change_input+='-'
+                for j in range(value, len(input)):
+                    change_input+=input[j]
+                way_list=[]
+                status=0
+            print("changed =", change_input)
+            if status==0:
+                input=change_input
+                status=1
             table = create_rects(animation, value, input)
-            animation.update()
 
+            animation.update()
+        way_list.append(value)
         i += 1
 
+    #canvas.destroy()
+    #table.destroy()
+
+
+
 def tr_input():
-    canvas.destroy()
-    table.destroy()
+    print("input1>  ", turing_input.get())
+    print("#####", canvas.winfo_exists())
+    if canvas.winfo_exists()==1 and table.winfo_exists()==1:
+        canvas.destroy()
+        table.destroy()
+    elif canvas.winfo_exists()==1:
+        canvas.destroy()
+    print("input2>  ", turing_input.get())
     gui_execute(animation, turing_input.get())
+
+    return
+def reset():
+
     return
 animation = Tk()
 animation.title('Tur2Spell')
@@ -303,17 +324,19 @@ mLabel=Label(inputt, text="Enter a word").pack()  # this is placed in 0 0
 # 'Entry' is used to display the input-field
 mEntry=Entry(inputt, textvariable=turing_input).pack()  # this is placed in 0 1
 mButton=Button(inputt, text="Turing Machine", command= tr_input, fg="tan2").pack()
+mButton2=Button(inputt, text="Reset", command= reset, fg="tan2").pack()
+
 inputt.pack()
 animation.update()
-print(turing_input.get())
+print(turing_input.get(), '*******')
 
 canvas = Canvas(animation, width=2000, height=600, bg='white')
 canvas.pack()
 main_graph(canvas, ' ')
-print('sdcdcfdcfdcccccccccccccccccccccccccccccccc')
 canvas.pack()
 table = create_rects(animation, -1, '          ')
 animation.update()
+
 animation.mainloop()
 print("ssssssssssssss")
 
