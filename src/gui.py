@@ -56,7 +56,7 @@ transitions = {
     'q5': {
         'c': (reject_state, '', 'R'),
         'v': ('q6', 'v', 'R'),
-        '#': (accept_state, '', 'R')
+        '#': (reject_state, '', 'R')
     },
     'q6': {
         'c': ('q7', 'c', 'R'),
