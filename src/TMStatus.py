@@ -1,5 +1,3 @@
-from collections import OrderedDict
-
 # ==============================================================================
 # -- Global function ----------------------------------------------------------
 # ==============================================================================
@@ -23,11 +21,11 @@ class TMStatus:
 
     def __init__(self, state, transitions):
         # Create a dictionary for keep the current state and tape index
-        self.machine_steps = OrderedDict()
+        self.machine_steps = []
         self.cur_state = state
         self.transition = transitions
         # Initialize the machine_steps with first step
-        self.machine_steps[self.cur_state] = 0
+        self.machine_steps.append((self.cur_state, 0))
 
     def get_transition(self, tape_symbol):
         """Return the transition function for current state"""
@@ -69,7 +67,7 @@ class TMStatus:
             tape.move(transition[2])
 
             # update the machine_steps dictionary
-            self.machine_steps[self.cur_state] = tape.cur_pos
+            self.machine_steps.append((self.cur_state, tape.cur_pos))
 
             return True
 

@@ -1,7 +1,6 @@
 import copy
 from TMTape import TMTape
 from TMStatus import TMStatus
-from collections import OrderedDict
 
 
 class TuringMachine(object):
@@ -82,12 +81,12 @@ class TuringMachine(object):
         # If the status true and the state is final state
         # Whether the final state is accept or reject
         if cur_status.cur_state == self.accept_state:
-            steps = OrderedDict([('accept', v)
-                                 if k == self.accept_state else (k, v) for k, v in cur_status.machine_steps.items()])
+            steps = [('accept', status[1]) if status[0] == self.accept_state else status
+                     for status in cur_status.machine_steps]
             result = "accepted"
         else:
-            steps = OrderedDict([('reject', v)
-                                 if k == self.reject_state else (k, v) for k, v in cur_status.machine_steps.items()])
+            steps = [('reject', status[1]) if status[0] == self.reject_state else status
+                     for status in cur_status.machine_steps]
             result = "rejected"
 
         return self.tape.get_tape(), result, steps
