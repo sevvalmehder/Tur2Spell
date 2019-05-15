@@ -80,8 +80,9 @@ blank = '#'
 animation = Tk()
 animation.title('Tur2Spell')
 turing_input=StringVar()
-#print(transitions)
+
 current_input_tr=''
+
 def create_ovalq1(canvas, text, x_0, y_0, x_1, y_1, color="SeaGreen3", width=0.0 ,ocolor="SeaGreen" ):
     canvas.create_oval(x_0, y_0, x_1, y_1, fill=color, width=width,  outline=ocolor )
     canvas.create_text(x_0 + 20, y_0 + 20, text=text)
@@ -296,11 +297,6 @@ def gui_execute(animation, input):
 
             animation.update()
 
-
-    #canvas.destroy()
-    #table.destroy()
-
-
 def tr_input():
     print("input1>  ", turing_input.get())
     print("#####", canvas.winfo_exists())
@@ -310,7 +306,6 @@ def tr_input():
     elif canvas.winfo_exists()==1:
         canvas.destroy()
     if turing_input.get()!=current_input_tr:
-        print("%^^^^^^^^^^^^^^^^^^^^^^^^^^#######################################################################################")
         list = animation.pack_slaves()
         for l in list:
             l.destroy()
@@ -325,8 +320,6 @@ def tr_input():
 
         inputt.pack()
         animation.update()
-        print(turing_input.get(), '*******')
-    print("input2>  ", turing_input.get())
     gui_execute(animation, turing_input.get())
 
     return
@@ -334,7 +327,6 @@ def reset(canvas, table):
     canvas.destroy()
     table.destroy()
     animation.update()
-    print(turing_input.get(), '*******')
 
     canvas = Canvas(animation, width=2000, height=530, bg='white')
     canvas.pack()
@@ -356,7 +348,6 @@ mButton=Button(inputt, text="Turing Machine", command= tr_input, fg="tan2").pack
 
 inputt.pack()
 animation.update()
-print(turing_input.get(), '*******')
 
 canvas = Canvas(animation, width=2000, height=530, bg='white')
 canvas.pack()
@@ -366,5 +357,4 @@ table = create_rects(animation, -1, '          ')
 animation.update()
 
 animation.mainloop()
-print("ssssssssssssss")
 
