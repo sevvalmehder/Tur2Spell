@@ -43,16 +43,16 @@ class TMStatus:
     def update(self, tape):
         """Go to the next status"""
 
+        control_strings = []
+
         # Get the transition
         # transition form: (next state, tape output, direction)
         tape_symbol = tape.read_tape()
         transition = self.get_transition(tape_symbol)
 
-        '''
-        # Control print
-        print("The current state: {}, the input symbol: {}".format(self.cur_state, tape_symbol))
-        print("The transition: {}".format(transition))
-        '''
+        # Control strings
+        control_strings.append( ( "The current state: {}, the input symbol: {}".format(self.cur_state, tape_symbol),
+                               "The transition: {}".format(transition)) )
 
         if transition is not None:
 
@@ -72,5 +72,5 @@ class TMStatus:
 
             self.machine_steps.append((self.cur_state, tape.cur_pos + self.count_pos))
 
-            return True
-        return False
+            return True, control_strings
+        return False, control_strings

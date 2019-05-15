@@ -71,7 +71,7 @@ class TuringMachine(object):
 
         # While the current status is not accepted update the status
         while not self.is_final(cur_status):
-            status = cur_status.update(self.tape)
+            status, _ = cur_status.update(self.tape)
 
         # If the status is false, there is no transition
         if not status:
