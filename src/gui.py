@@ -89,8 +89,8 @@ def create_ovalq1(canvas, text, x_0, y_0, x_1, y_1, color="SeaGreen3", width=0.0
     canvas.create_text(x_0 + 20, y_0 + 20, text=text)
 
 
-def main_graph(canvas, current_state):
-    x0 = 530
+def main_graph(canvas, current_state, control):
+    x0 = 300
     y0 = 300
     # reject
     if current_state == 'reject':
@@ -117,7 +117,12 @@ def main_graph(canvas, current_state):
         canvas.create_text(x0 + 1000 + 20, y0 + 30, text='ACCEPTED!')
     else:
         create_ovalq1(canvas, 'accept', x0 + 800, y0, x0 + 800 + 40, y0 + 40, color='SkyBlue1')
-
+    canvas.create_rectangle(x0 + 900+230, y0-300, x0 + 900 + 40 + 450+230, y0 + 40+300, fill='lightblue',
+                            width=1, outline='SkyBlue3')
+    col=0
+    for step in control:
+        canvas.create_text(x0 + 1100+230, y0-300+40+col, text=step[0]+"\n"+step[1])
+        col+=33
     # cadet blue
     canvas.create_line(x0 + 480 + 20, y0 - 260 + 40, x0 + 800, y0 + 20, arrow=tk.LAST, fill="cadet blue")  # q7
     canvas.create_line(x0 + 540 + 20, y0 - 90 + 40, x0 + 800, y0 + 10, arrow=tk.LAST, fill="cadet blue")  # q6
@@ -204,7 +209,7 @@ def main_graph(canvas, current_state):
     canvas.create_line(x0 + 480 + 20, y0 - 260 + 40, x0 + 200 + 40, y0 - 120 + 20, arrow=tk.LAST, fill="SteelBlue1")
 
 
-def create_rects(animation, pointed_index, input='                      ', ):
+def create_rects(animation, pointed_index, input='                      '):
     canvas = Canvas(animation, width=2000, height=300, bg='lightblue')
 
     input = input.upper()
@@ -270,20 +275,25 @@ def gui_execute(animation, input):
     # Set the current status with start state and tape
     cur_status = TMStatus(initial_state, transitions)
     status = True
+    control_str=[]
     for i in range(len(steps)):
         key = steps[i][0]
         value = steps[i][1]
         if (i == 0):
+
             canvas = Canvas(animation, width=2000, height=530, bg='white')
             canvas.pack()
-            main_graph(canvas, key)
+            main_graph(canvas, key, control_str)
 
             table = create_rects(animation, value, change_input)
 
             animation.update()
             time.sleep(1)
         else:
-            main_graph(canvas, key)
+            status, control = cur_status.update(tape)
+            control_str.append(control[0])
+
+            main_graph(canvas, key, control_str)
             animation.update()
             time.sleep(1)
 
@@ -294,7 +304,7 @@ def gui_execute(animation, input):
 
             # time.sleep(1)
             canvas.pack()
-            status = cur_status.update(tape)
+
 
             change_input = tape.get_tape()
 
@@ -336,8 +346,10 @@ def reset(canvas, table):
 
     canvas = Canvas(animation, width=2000, height=530, bg='white')
     canvas.pack()
-    main_graph(canvas, ' ')
+    listt = []
+    main_graph(canvas, ' ', listt)
     canvas.pack()
+
     table = create_rects(animation, -1, '          ')
     animation.update()
     return
@@ -356,8 +368,10 @@ animation.update()
 
 canvas = Canvas(animation, width=2000, height=530, bg='white')
 canvas.pack()
-main_graph(canvas, ' ')
+listt=[]
+main_graph(canvas, ' ', listt)
 canvas.pack()
+
 table = create_rects(animation, -1, '          ')
 animation.update()
 
