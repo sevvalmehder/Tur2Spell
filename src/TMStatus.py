@@ -19,8 +19,6 @@ def type_of_letter(letter):
 # ==============================================================================
 class TMStatus:
 
-
-
     def __init__(self, state, transitions):
         # Create a dictionary for keep the current state and tape index
         self.machine_steps = []
@@ -28,7 +26,8 @@ class TMStatus:
         self.transition = transitions
         # Initialize the machine_steps with first step
         self.machine_steps.append((self.cur_state, 0))
-        self.count_pos=0
+        self.count_pos = 0
+
     def get_transition(self, tape_symbol):
         """Return the transition function for current state"""
 
@@ -63,7 +62,7 @@ class TMStatus:
             # Write this output to the tape
             if transition[1] is not '':
                 to_write = tape_symbol if transition[1][0] != '-' else str('-' + tape_symbol)
-                self.count_pos = self.count_pos+ 0 if transition[1][0] != '-' else self.count_pos+ 1
+                self.count_pos = self.count_pos + 0 if transition[1][0] != '-' else self.count_pos + 1
                 tape.write_to_tape(to_write)
 
             # Move to the head of the tape
@@ -71,8 +70,7 @@ class TMStatus:
 
             # update the machine_steps dictionary
 
-
-            self.machine_steps.append((self.cur_state, tape.cur_pos+self.count_pos))
+            self.machine_steps.append((self.cur_state, tape.cur_pos + self.count_pos))
 
             return True
         return False

@@ -58,7 +58,7 @@ transitions = {
     'q5': {
         'c': (reject_state, '', 'R'),
         'v': ('q6', 'v', 'R'),
-        '#': (accept_state, '', 'R')
+        '#': (reject_state, '', 'R')
     },
     'q6': {
         'c': ('q7', 'c', 'R'),
@@ -95,7 +95,7 @@ def main_graph(canvas, current_state):
         create_ovalq1(canvas, 'reject', x0 + 530, y0 + 150 + 30, x0 + 530 + 40, y0 + 150 + 30 + 40, color="MediumPurple1", width=10, ocolor="gold")
         canvas.create_rectangle(x0 + 530 + 70, y0 + 150 + 30, x0 + 530 + 40 + 150, y0 + 150 + 30 + 40, fill='red',
                                 width=5, outline='gold')
-        canvas.create_text(x0 + 530 + 70+50, y0 + 150 + 30+20, text='Rejected!')
+        canvas.create_text(x0 + 530 + 70+50, y0 + 150 + 30+20, text='REJECTED!')
     else:
         create_ovalq1(canvas, 'reject', x0 + 530, y0 + 150 + 30, x0 + 530 + 40, y0 + 150 + 30 + 40,color="MediumPurple1")
 
@@ -110,7 +110,7 @@ def main_graph(canvas, current_state):
         create_ovalq1(canvas, 'accept', x0 + 800, y0, x0 + 800 + 40, y0 + 40, color='SkyBlue1', width=10, ocolor="gold")
         canvas.create_rectangle(x0 + 950, y0, x0 + 1000 + 40+90, y0 + 40, fill='tan1',
                                 width=5, outline='gold')
-        canvas.create_text(x0 + 1000 + 20, y0 +30, text='Accepted!')
+        canvas.create_text(x0 + 1000 + 20, y0 +30, text='ACCEPTED!')
     else:
         create_ovalq1(canvas, 'accept', x0 + 800, y0, x0 + 800 + 40, y0 + 40, color='SkyBlue1')
 
@@ -199,6 +199,9 @@ def main_graph(canvas, current_state):
     canvas.create_line(x0 + 480 + 20, y0 - 260 + 40, x0 + 200 + 40, y0 - 120 + 20, arrow=tk.LAST, fill="SteelBlue1")
 def create_rects(animation,  pointed_index, input='                      ',):
     canvas = Canvas(animation, width=2000, height=300, bg='lightblue')
+
+    input = input.upper()
+
     lngt = 50
     width_count=0
     change=0
@@ -220,7 +223,7 @@ def create_rects(animation,  pointed_index, input='                      ',):
             canvas.create_text(current_x + 20, current_y+10,  text=input[i])
 
 
-        if (i >73 and i<80):
+        if (i >73 and i<101):
             current_x -= 74 * 50
             current_y = 225
             point_state = 74 * 50
