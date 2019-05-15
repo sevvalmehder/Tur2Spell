@@ -83,7 +83,9 @@ def main():
         print("Your input:", word)
         output_tape, result, steps = spelling_turing_machine.execute(word)
         print("The word {} is {}, the final tape: {}".format(word, result, output_tape))
+
         print("The machine steps: ", steps)
+        print(steps[0][1], "****")
 
 
 if __name__ == '__main__':
